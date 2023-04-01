@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  pull_request:
+    branches: 
+      - main
+
+jobs: 
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies
+        run: npm run lint
+
+      - name: Install Prettier globally 
+        run: npm install -g prettier 
+
+      - name: Formatter (Prettier)
+        run: npm run prettier
+      
+      - name: Build
+        run: npm run build
+
+      - name: Configure AWs credentials 
+        user: aws-actions/configure-aws-credentails@v1
+        with:
+          aws-secret-key-id: ${{secerets.AWS_ACCESS_KEY}}
+          aws-secret-access-key: ${{secret.AWS_SECRET_ACCESS_KEY}}
+          aws-region: us-west-1
+
+      - name: Setup Terraform 
+        user: hashicorp/sectup-terrafrom@v1
+
+      - name: Terrafrom init
+        working-directory: path of terraform code
+        run: terraform init
+
+      - name: Terraform fmt 
+        run: terraform fmt
+
+      - name: Terraform plan 
+        working-directory: path 
+        run: terrafrom paln  
+    
+      - name: Terraform apply 
+        working-directory: apply 
+        run: terraform apply - auto-approve
