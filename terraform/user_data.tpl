@@ -8,7 +8,7 @@ sudo apt install npm -y
 sudo apt install git -y 
 
 sudo openssl req -x509 -nodes -day 365 -newkey rsa:2048 -keyout /etc/ssl/private/apache.key -out /etc/ssl/certs/apache.crt
-sudo sed -i -E "s#SSLCertificateFile.*#SSLCertificateFile /etc/ssl/cert/apache.crt#" /eat/apache2/site-avilable/default-ssl.conf
+sudo sed -i -E "s#SSLCertificateFile.*#SSLCertificateFile /etc/ssl/cert/apache.crt#" /etc/apache2/site-avilable/default-ssl.conf
 
 git clone https://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@github.com/fullstacklabs/devops-ci-challenge.git
 cd devops-ci-challenge
